@@ -52,7 +52,7 @@ export class BookingService {
         phone_number: bookingData.phone,
         selected_service: bookingData.service,
         date_time: `${bookingData.date} at ${bookingData.time}`,
-        stylist_preference: bookingData.stylist || 'No preference',
+        stylist_preference: '', // Hidden from email
         additional_notes: bookingData.notes || 'No additional notes',
         salon_email: SALON_OWNER_EMAIL
       };

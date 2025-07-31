@@ -85,7 +85,7 @@ CREATE POLICY "Enable select for all users" ON bookings
 - `{{full_name}}` - Customer's full name
 - `{{email_address}}` - Customer's email
 - `{{phone_number}}` - Customer's phone
-- `{{selected_service}}` - Selected service
+- `{{selected_service}}` - Selected service(s) (newline-separated)
 - `{{date_time}}` - Appointment date and time
 - `{{stylist_preference}}` - Preferred stylist
 - `{{additional_notes}}` - Additional notes
@@ -98,7 +98,7 @@ New Booking Request
 Name: {{full_name}}
 Email: {{email_address}}
 Phone: {{phone_number}}
-Service: {{selected_service}}
+Services: {{selected_service}}
 Date & Time: {{date_time}}
 Stylist: {{stylist_preference}}
 Notes: {{additional_notes}}
@@ -134,7 +134,7 @@ Please contact the customer to confirm this appointment.
    - `name` (VARCHAR)
    - `email` (VARCHAR)
    - `phone` (VARCHAR)
-   - `service` (VARCHAR)
+   - `service` (VARCHAR) - Services separated by newlines
    - `date` (DATE)
    - `time` (VARCHAR)
    - `stylist` (VARCHAR)

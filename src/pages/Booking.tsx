@@ -4,6 +4,7 @@ import { BookingService, AVAILABLE_SLOTS } from '../services/bookingService';
 import { BookingFormData } from '../types/booking';
 
 const BookingPage: React.FC = () => {
+  const [selectedServices, setSelectedServices] = useState<string[]>([]);
   const [formData, setFormData] = useState<BookingFormData>({
     name: '',
     email: '',
@@ -59,21 +60,54 @@ const BookingPage: React.FC = () => {
     }
   };
 
+  const handleServiceSelection = (serviceValue: string) => {
+    setSelectedServices(prev => {
+      const serviceIndex = prev.indexOf(serviceValue);
+      
+      if (serviceIndex > -1) {
+        // Remove service if already selected
+        return prev.filter(service => service !== serviceValue);
+      } else {
+        // Add service if not selected
+        return [...prev, serviceValue];
+      }
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setMessage(null);
 
+    // Validate that at least one service is selected
+    if (selectedServices.length === 0) {
+      setMessage({
+        type: 'error',
+        text: 'Please select at least one service.'
+      });
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
+      // Concatenate selected services with newlines
+      const servicesString = selectedServices.join('\n');
+      
+      // Create booking data with concatenated services
+      const bookingData = {
+        ...formData,
+        service: servicesString
+      };
+
       // Save booking to database
-      const saveResult = await BookingService.saveBooking(formData);
+      const saveResult = await BookingService.saveBooking(bookingData);
       
       if (!saveResult.success) {
         throw new Error(saveResult.error || 'Failed to save booking');
       }
 
       // Send email notification
-      const emailResult = await BookingService.sendEmailNotification(formData);
+      const emailResult = await BookingService.sendEmailNotification(bookingData);
       
       if (!emailResult.success) {
         console.warn('Email notification failed:', emailResult.error);
@@ -97,6 +131,7 @@ const BookingPage: React.FC = () => {
         stylist: '',
         notes: ''
       });
+      setSelectedServices([]);
 
     } catch (error) {
       console.error('Booking submission error:', error);
@@ -213,36 +248,214 @@ const BookingPage: React.FC = () => {
 
               {/* Service Selection */}
               <div className="form-group">
-                <label className="form-label">Service Type *</label>
-                <select
-                  name="service"
-                  value={formData.service}
-                  onChange={handleInputChange}
-                  className="form-select"
-                  required
-                  disabled={isSubmitting}
-                >
-                  <option value="">Select a service</option>
-                  <optgroup label="Hair Services">
-                    <option value="Haircut & Styling - $75">Haircut & Styling - $75</option>
-                    <option value="Color & Highlights - $150">Color & Highlights - $150</option>
-                    <option value="Blowout & Styling - $65">Blowout & Styling - $65</option>
-                  </optgroup>
-                  <optgroup label="Skincare Services">
-                    <option value="Hydrafacial - $120">Hydrafacial - $120</option>
-                    <option value="Anti-Aging Facial - $95">Anti-Aging Facial - $95</option>
-                    <option value="Deep Cleansing Facial - $75">Deep Cleansing Facial - $75</option>
-                  </optgroup>
-                  <optgroup label="Nail Services">
-                    <option value="Classic Manicure - $45">Classic Manicure - $45</option>
-                    <option value="Gel Manicure - $65">Gel Manicure - $65</option>
-                    <option value="Pedicure - $75">Pedicure - $75</option>
-                  </optgroup>
-                  <optgroup label="Special Packages">
-                    <option value="Bridal Package - $350">Bridal Package - $350</option>
-                    <option value="Spa Day Package - $280">Spa Day Package - $280</option>
-                  </optgroup>
-                </select>
+                <label className="form-label">Select Services *</label>
+                <div className="text-sm text-gray-600 mb-3">
+                  Click on services to select/deselect. You can choose multiple services for your appointment.
+                </div>
+                
+                {/* Selected Services Display */}
+                {selectedServices.length > 0 && (
+                  <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg">
+                    <h4 className="font-semibold text-green-800 mb-2">Selected Services ({selectedServices.length}):</h4>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                      {selectedServices.map((service, index) => (
+                        <div 
+                          key={index}
+                          className="flex items-center justify-between p-2 rounded-lg bg-green-100 text-green-800 border border-green-300 hover:bg-green-200 transition-colors"
+                        >
+                          <span className="text-sm flex-1 pr-2 break-words">
+                            {service}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => handleServiceSelection(service)}
+                            className="text-green-600 hover:text-green-800 font-bold text-lg leading-none flex-shrink-0"
+                            style={{ minWidth: '20px' }}
+                          >
+                            ×
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Service Categories */}
+                <div className="space-y-4 max-h-96 overflow-y-auto border border-gray-200 rounded-lg p-4">
+                  {/* Hair Services */}
+                  <div>
+                    <h4 className="font-semibold text-champagnegold mb-2">💇‍♀️ Hair Services</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                      {[
+                        "Hair Cut (Basic) - ₹250",
+                        "Hair Cut (Advanced / Fashion) - ₹400",
+                        "Kids Hair Cut - ₹150",
+                        "Front Layer Cutting - ₹100",
+                        "Full Layer Cutting - ₹250",
+                        "Blow Dry (Short) - ₹250",
+                        "Blow Dry (Medium) - ₹350",
+                        "Blow Dry (Long) - ₹450",
+                        "Ironing (Short) - ₹400",
+                        "Ironing (Medium) - ₹500",
+                        "Ironing (Long) - ₹600",
+                        "Curls (Temporary) - ₹500",
+                        "Hair Wash + Conditioning - ₹200"
+                      ].map((service) => (
+                        <label key={service} className="flex items-center space-x-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
+                          <input
+                            type="checkbox"
+                            checked={selectedServices.includes(service)}
+                            onChange={() => handleServiceSelection(service)}
+                            className="rounded border-gray-300 text-champagnegold focus:ring-champagnegold"
+                            disabled={isSubmitting}
+                          />
+                          <span className="text-sm">{service}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Hair Spa & Treatments */}
+                  <div>
+                    <h4 className="font-semibold text-champagnegold mb-2">💆‍♀️ Hair Spa & Treatments</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                      {[
+                        "Hair Spa (Basic - Short) - ₹700",
+                        "Hair Spa (Basic - Medium) - ₹900",
+                        "Hair Spa (Basic - Long) - ₹1100",
+                        "Hair Spa (L'Oreal / Deep Repair - Short) - ₹1200",
+                        "Hair Spa (L'Oreal / Deep Repair - Medium) - ₹1400",
+                        "Hair Spa (L'Oreal / Deep Repair - Long) - ₹1600",
+                        "Dandruff / Scalp Treatment - ₹800",
+                        "Keratin Treatment (Short) - ₹2500",
+                        "Keratin Treatment (Medium) - ₹3500",
+                        "Keratin Treatment (Long) - ₹4500",
+                        "Botox Hair Treatment (Short) - ₹3500",
+                        "Botox Hair Treatment (Medium) - ₹5000",
+                        "Botox Hair Treatment (Long) - ₹6000",
+                        "Hair Smoothening / Rebonding (Short) - ₹3000",
+                        "Hair Smoothening / Rebonding (Medium) - ₹4500",
+                        "Hair Smoothening / Rebonding (Long) - ₹6000",
+                        "Cysteine (Short) - ₹4000",
+                        "Cysteine (Medium) - ₹5500",
+                        "Cysteine (Long) - ₹7000"
+                      ].map((service) => (
+                        <label key={service} className="flex items-center space-x-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
+                          <input
+                            type="checkbox"
+                            checked={selectedServices.includes(service)}
+                            onChange={() => handleServiceSelection(service)}
+                            className="rounded border-gray-300 text-champagnegold focus:ring-champagnegold"
+                            disabled={isSubmitting}
+                          />
+                          <span className="text-sm">{service}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Face Services */}
+                  <div>
+                    <h4 className="font-semibold text-champagnegold mb-2">🧖‍♀️ Face Services</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                      {[
+                        "Basic Cleanup - ₹400",
+                        "Fruit Cleanup - ₹500",
+                        "Detan Cleanup - ₹600",
+                        "Fruit Facial - ₹700",
+                        "Gold Facial - ₹1000",
+                        "Pearl Facial - ₹1200",
+                        "Diamond Facial - ₹1500",
+                        "Anti-Aging / Skin Brightening Facial - ₹1800 - ₹2500",
+                        "O3+ / VLCC / Cheryl's Facial - ₹1200 - ₹2000",
+                        "Hydra Facial - ₹2500 - ₹4500",
+                        "Face Bleach - ₹250",
+                        "Face Detan - ₹300",
+                        "Face Serum Therapy - ₹400"
+                      ].map((service) => (
+                        <label key={service} className="flex items-center space-x-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
+                          <input
+                            type="checkbox"
+                            checked={selectedServices.includes(service)}
+                            onChange={() => handleServiceSelection(service)}
+                            className="rounded border-gray-300 text-champagnegold focus:ring-champagnegold"
+                            disabled={isSubmitting}
+                          />
+                          <span className="text-sm">{service}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Manicure & Pedicure Services */}
+                  <div>
+                    <h4 className="font-semibold text-champagnegold mb-2">💅 Manicure & Pedicure Services</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                      {[
+                        "Basic Manicure - ₹400",
+                        "Detan Manicure - ₹600",
+                        "Brightening Manicure - ₹700",
+                        "Luxury Manicure - ₹900",
+                        "Basic Pedicure - ₹500",
+                        "Detan Pedicure - ₹700",
+                        "Brightening Pedicure - ₹800",
+                        "Luxury Spa Pedicure - ₹1,000",
+                        "Gel Polish (Add-on) - ₹300",
+                        "Nail Cut, File & Polish - ₹200",
+                        "Nail Art (Per Nail) - ₹50+",
+                        "Cracked Heel Repair Add-on - ₹200"
+                      ].map((service) => (
+                        <label key={service} className="flex items-center space-x-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
+                          <input
+                            type="checkbox"
+                            checked={selectedServices.includes(service)}
+                            onChange={() => handleServiceSelection(service)}
+                            className="rounded border-gray-300 text-champagnegold focus:ring-champagnegold"
+                            disabled={isSubmitting}
+                          />
+                          <span className="text-sm">{service}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Bridal Services */}
+                  <div>
+                    <h4 className="font-semibold text-champagnegold mb-2">👰‍♀️ Bridal Services</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                      {[
+                        "ZORA BRIDAL PRE-GLAM PACKAGE (Without Makeup) - ₹10,999",
+                        "Bridal Makeup (HD) - ₹9,000",
+                        "Reception Makeup - ₹5,000",
+                        "Engagement Makeup - ₹5,500",
+                        "Haldi / Mehndi Makeup - ₹2,000",
+                        "Bridal Hair Styling - ₹1,500",
+                        "Bridal Nail Art - ₹800",
+                        "Bridal Facial - ₹1,200",
+                        "Bridal Waxing Package - ₹800",
+                        "Saree or Dupatta Draping - ₹300"
+                      ].map((service) => (
+                        <label key={service} className="flex items-center space-x-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
+                          <input
+                            type="checkbox"
+                            checked={selectedServices.includes(service)}
+                            onChange={() => handleServiceSelection(service)}
+                            className="rounded border-gray-300 text-champagnegold focus:ring-champagnegold"
+                            disabled={isSubmitting}
+                          />
+                          <span className="text-sm">{service}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Validation Message */}
+                {selectedServices.length === 0 && (
+                  <div className="text-red-600 text-sm mt-2">
+                    Please select at least one service
+                  </div>
+                )}
               </div>
 
               {/* Date and Time */}
@@ -297,22 +510,7 @@ const BookingPage: React.FC = () => {
                 </div>
               </div>
 
-              {/* Stylist Preference */}
-              <div className="form-group">
-                <label className="form-label">Stylist Preference</label>
-                <select
-                  name="stylist"
-                  value={formData.stylist}
-                  onChange={handleInputChange}
-                  className="form-select"
-                  disabled={isSubmitting}
-                >
-                  <option value="">No preference</option>
-                  <option value="Navjot Dhaliwal (Founder & Master Stylist)">Navjot Dhaliwal (Founder & Master Stylist)</option>
-                  <option value="Simran Dhillon (Senior Stylist)">Simran Dhillon (Senior Stylist)</option>
-                  <option value="Gursahib Dhillon (Skincare Specialist)">Gursahib Dhillon (Skincare Specialist)</option>
-                </select>
-              </div>
+
 
               {/* Additional Notes */}
               <div className="form-group">
@@ -361,7 +559,6 @@ const BookingPage: React.FC = () => {
             <div className="card">
               <h3 className="text-2xl mb-4">Cancellation Policy</h3>
               <p className="mb-4">We require 24 hours notice for appointment cancellations or rescheduling.</p>
-              <p>Late cancellations may incur a fee of 50% of the service cost.</p>
             </div>
             <div className="card">
               <h3 className="text-2xl mb-4">What to Expect</h3>
@@ -395,7 +592,6 @@ const BookingPage: React.FC = () => {
               </div>
               <div>
                 <h3 className="text-xl mb-2">✉️ Email Us</h3>
-                <p className="mb-2">zorasalon07@gmail.com</p>
                 <p className="mb-2">zorasalon07@gmail.com</p>
                 <p className="text-champagnegold font-semibold">We respond within 24 hours</p>
               </div>

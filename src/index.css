@@ -74,11 +74,26 @@ nav {
   font-family: 'Playfair Display', serif;
   font-weight: 700;
   text-decoration: none;
-  display: block;
+  display: flex;
+  align-items: center;
   color: var(--champagnegold);
   text-shadow: 3px 3px 6px rgba(0,0,0,0.4);
   letter-spacing: 0.1em;
 }
+
+.logo-image {
+  transition: transform 0.3s ease;
+}
+
+.logo:hover .logo-image {
+  transform: scale(1.05);
+}
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
+}
+
 .logo-main {
   font-size: 2.8rem;
   background: linear-gradient(135deg, var(--champagnegold) 0%, #F4D03F 50%, var(--champagnegold) 100%);
@@ -328,10 +343,25 @@ footer {
   nav {
     padding: 1rem;
   }
+  
   .nav-container {
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 1rem;
   }
+  
+  .logo {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .logo-image {
+    width: 35px !important;
+    height: 35px !important;
+    margin-right: 0 !important;
+    margin-bottom: 8px;
+  }
+  
   .logo-main { font-size: 2rem; }
   .logo-sub { font-size: 0.7rem; }
   .logo { margin-bottom: 0.5rem; }
@@ -449,15 +479,7 @@ footer {
     margin: 0 auto 1rem;
   }
 
-  /* Contact Information Layout */
-  .contact-info-grid {
-    flex-direction: column;
-  }
 
-  .contact-info-grid > div {
-    flex: 1;
-    min-width: 100%;
-  }
 
   /* Need Immediate Assistance Section */
   .immediate-assistance {
@@ -807,6 +829,30 @@ footer {
 @media (min-width: 768px) {
   .values-container {
     flex-direction: row;
+  }
+}
+
+/* Contact Information Layout */
+.contact-info-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  width: 100%;
+}
+
+.contact-info-grid > div {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .contact-info-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 2rem;
+  }
+  
+  .contact-info-grid > div {
+    width: 100%;
   }
 }
 

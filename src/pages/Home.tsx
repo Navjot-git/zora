@@ -140,24 +140,45 @@ const HomePage: React.FC = () => {
             <div className="card text-center">
               <h3 className="text-2xl mb-4">Hairstyling</h3>
               <p className="mb-4">Elegant cuts, styling, and blowouts that transform your look and boost your confidence.</p>
-              <span className="text-champagnegold font-semibold">Starting at X Rupees</span>
             </div>
             <div className="card text-center">
               <h3 className="text-2xl mb-4">Hydrafacial</h3>
               <p className="mb-4">Deep cleansing and rejuvenation treatment that leaves your skin glowing and refreshed.</p>
-              <span className="text-champagnegold font-semibold">Starting at X Rupees</span>
             </div>
             <div className="card text-center">
               <h3 className="text-2xl mb-4">Nail Services</h3>
-              <p className="mb-4">Manicure, pedicure, and nail art services with premium products and attention to detail.</p>
-              <span className="text-champagnegold font-semibold">Starting at X Rupees</span>
+              <p className="mb-4">Beautiful nail paint and creative nail art designs with premium products and attention to detail.</p>
+            </div>
+            <div className="card text-center">
+              <h3 className="text-2xl mb-4">Makeup</h3>
+              <p className="mb-4">Professional makeup services for special occasions, bridal looks, and everyday glamour with premium products.</p>
+            </div>
+            <div className="card text-center">
+              <h3 className="text-2xl mb-4">Manicure</h3>
+              <p className="mb-4">Expert nail care and grooming services including cuticle care, shaping, and beautiful polish application.</p>
+            </div>
+            <div className="card text-center">
+              <h3 className="text-2xl mb-4">Pedicure</h3>
+              <p className="mb-4">Luxurious foot care treatments including exfoliation, massage, and nail care for healthy, beautiful feet.</p>
+            </div>
+            <div className="card text-center">
+              <h3 className="text-2xl mb-4">Eye Lashes/Extensions</h3>
+              <p className="mb-4">Professional lash extensions and treatments to enhance your natural beauty and create stunning, long-lasting results.</p>
+            </div>
+            <div className="card text-center">
+              <h3 className="text-2xl mb-4">Waxing</h3>
+              <p className="mb-4">Professional waxing services for smooth, hair-free skin using high-quality products and expert techniques.</p>
+            </div>
+            <div className="card text-center">
+              <h3 className="text-2xl mb-4">Body Massage</h3>
+              <p className="mb-4">Relaxing and therapeutic body massage treatments to rejuvenate your body and mind with skilled therapists.</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Testimonials */}
-      <section className="py-12" style={{ padding: '2rem' }}>
+      {/* <section className="py-12" style={{ padding: '2rem' }}>
         <div className="max-w-4xl mx-auto">
           <div style={{
             background: 'rgba(255, 248, 220, 0.7)',
@@ -176,7 +197,7 @@ const HomePage: React.FC = () => {
               <div className="flex items-center mb-4">
                 <div style={{ fontSize: '2rem', marginRight: '1rem' }}>⭐</div>
                 <div>
-                  <h4 className="font-semibold">Harpal Jit Kaur</h4>
+                  <h4 className="font-semibold">Manpreet Kaur</h4>
                   <p className="text-sm text-bottlegreen">Regular Client</p>
                 </div>
               </div>
@@ -194,7 +215,7 @@ const HomePage: React.FC = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* CTA Section */}
       <section className="py-12" style={{ padding: '2rem' }}>

@@ -3,6 +3,7 @@ import emailjs from '@emailjs/browser';
 // Get EmailJS credentials from environment variables
 const serviceId = process.env.REACT_APP_EMAILJS_SERVICE_ID;
 const templateId = process.env.REACT_APP_EMAILJS_TEMPLATE_ID;
+const contactTemplateId = process.env.REACT_APP_EMAILJS_CONTACT_TEMPLATE_ID;
 const publicKey = process.env.REACT_APP_EMAILJS_PUBLIC_KEY;
 
 // Check if credentials are provided
@@ -14,6 +15,7 @@ if (!serviceId || !templateId || !publicKey) {
 export const EMAILJS_CONFIG = {
   SERVICE_ID: serviceId || 'your-service-id',
   TEMPLATE_ID: templateId || 'your-template-id',
+  CONTACT_TEMPLATE_ID: contactTemplateId || 'your-contact-template-id',
   PUBLIC_KEY: publicKey || 'your-public-key',
 };
 

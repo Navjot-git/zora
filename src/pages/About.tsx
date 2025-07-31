@@ -25,7 +25,7 @@ const AboutPage: React.FC = () => {
           }}>
             <h1 className="text-6xl md:text-5xl mb-6">About Zora Salon</h1>
             <p className="text-xl mb-8 text-bottlegreen">
-              A legacy of beauty, excellence, and personalized care since 2020
+              Your one-stop destination for beauty, elegance, and personalized care.
             </p>
           </div>
         </div>
@@ -64,7 +64,7 @@ const AboutPage: React.FC = () => {
                     boxShadow: '0 4px 15px rgba(212, 175, 55, 0.2)'
                   }} 
                 />
-                <h3 className="text-2xl mb-4 mt-4">5+ Years of Expertise</h3>
+                {/* <h3 className="text-2xl mb-4 mt-4">5+ Years of Expertise</h3> */}
                 <p className="text-bottlegreen">Rooted in family. Guided by vision. Trusted by women who know the difference.</p>
               </div>
             </div>
@@ -289,9 +289,13 @@ const AboutPage: React.FC = () => {
                   Hours
                 </h3>
                 <div className="space-y-2">
-                  <p><strong>Monday - Friday:</strong> 9:00 AM - 8:00 PM</p>
-                  <p><strong>Saturday:</strong> 9:00 AM - 6:00 PM</p>
-                  <p><strong>Sunday:</strong> 10:00 AM - 4:00 PM</p>
+                  <p><strong>Monday:</strong> 9:00 AM - 7:00 PM</p>
+                  <p><strong>Tuesday:</strong> Closed</p>
+                  <p><strong>Wednesday:</strong> 9:00 AM - 7:00 PM</p>
+                  <p><strong>Thursday:</strong> 9:00 AM - 7:00 PM</p>
+                  <p><strong>Friday:</strong> 9:00 AM - 7:00 PM</p>
+                  <p><strong>Saturday:</strong> 9:00 AM - 7:00 PM</p>
+                  <p><strong>Sunday:</strong> 9:00 AM - 7:00 PM</p>
                 </div>
               </div>
             </div>
@@ -300,7 +304,7 @@ const AboutPage: React.FC = () => {
       </section>
 
       {/* Awards & Recognition */}
-      <section className="py-12">
+      {/* <section className="py-12">
         <div className="max-w-4xl mx-auto">
           <div className="card text-center">
             <h2 className="text-3xl mb-6">Awards & Recognition</h2>
@@ -316,7 +320,7 @@ const AboutPage: React.FC = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
     </div>
   );
 };

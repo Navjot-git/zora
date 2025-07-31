@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { MapPin, Phone, Mail, Clock, MessageSquare, User } from 'lucide-react';
+import { emailjs, EMAILJS_CONFIG } from '../config/emailjs';
 
 const ContactPage: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -8,6 +9,8 @@ const ContactPage: React.FC = () => {
     subject: '',
     message: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -17,12 +20,64 @@ const ContactPage: React.FC = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log('Contact form submitted:', formData);
-    alert('Thank you for your message! We will get back to you within 24 hours.');
-    setFormData({ name: '', email: '', subject: '', message: '' });
+    console.log('Contact form submitted - using EmailJS');
+    setIsSubmitting(true);
+    setSubmitMessage(null);
+
+    try {
+      // Check if EmailJS is configured
+      console.log('EmailJS Config:', {
+        SERVICE_ID: EMAILJS_CONFIG.SERVICE_ID,
+        CONTACT_TEMPLATE_ID: EMAILJS_CONFIG.CONTACT_TEMPLATE_ID,
+        PUBLIC_KEY: EMAILJS_CONFIG.PUBLIC_KEY ? 'Set' : 'Not Set'
+      });
+
+      if (!EMAILJS_CONFIG.SERVICE_ID || EMAILJS_CONFIG.SERVICE_ID === 'your-service-id') {
+        console.warn('EmailJS not configured. Contact form will not send email.');
+        setSubmitMessage({ type: 'error', text: 'Email service not configured. Please contact us directly.' });
+        return;
+      }
+
+      if (!EMAILJS_CONFIG.CONTACT_TEMPLATE_ID || EMAILJS_CONFIG.CONTACT_TEMPLATE_ID === 'your-contact-template-id') {
+        console.warn('Contact template not configured.');
+        setSubmitMessage({ type: 'error', text: 'Contact template not configured. Please contact us directly.' });
+        return;
+      }
+
+      // Prepare email data
+      const emailData = {
+        full_name: formData.name,
+        email_address: formData.email,
+        subject: formData.subject || 'Contact Form Message',
+        message: formData.message,
+        salon_email: 'zorasalon07@gmail.com'
+      };
+
+      console.log('Sending email with data:', emailData);
+
+      // Send email using EmailJS
+      const result = await emailjs.send(
+        EMAILJS_CONFIG.SERVICE_ID,
+        EMAILJS_CONFIG.CONTACT_TEMPLATE_ID,
+        emailData
+      );
+
+      console.log('EmailJS result:', result);
+
+      if (result.status === 200) {
+        setSubmitMessage({ type: 'success', text: 'Thank you for your message! We will get back to you within 24 hours.' });
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      } else {
+        setSubmitMessage({ type: 'error', text: 'Failed to send message. Please try again or contact us directly.' });
+      }
+    } catch (error) {
+      console.error('Error sending contact form:', error);
+      setSubmitMessage({ type: 'error', text: 'Failed to send message. Please try again or contact us directly.' });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -85,7 +140,6 @@ const ContactPage: React.FC = () => {
               </div>
               <h3 className="text-2xl mb-4">Email Us</h3>
               <p className="mb-4">zorasalon07@gmail.com</p>
-              <p className="mb-4">zorasalon07@gmail.com</p>
               <p className="text-champagnegold font-semibold">We respond within 24 hours</p>
             </div>
           </div>
@@ -105,16 +159,32 @@ const ContactPage: React.FC = () => {
                 </h3>
                 <div className="space-y-3">
                   <div className="flex justify-between">
-                    <span>Monday - Friday:</span>
-                    <span className="font-semibold">9:00 AM - 8:00 PM</span>
+                    <span>Monday:</span>
+                    <span className="font-semibold">9:00 AM - 7:00 PM</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Tuesday:</span>
+                    <span className="font-semibold text-red-600">Closed</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Wednesday:</span>
+                    <span className="font-semibold">9:00 AM - 7:00 PM</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Thursday:</span>
+                    <span className="font-semibold">9:00 AM - 7:00 PM</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Friday:</span>
+                    <span className="font-semibold">9:00 AM - 7:00 PM</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Saturday:</span>
-                    <span className="font-semibold">9:00 AM - 6:00 PM</span>
+                    <span className="font-semibold">9:00 AM - 7:00 PM</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Sunday:</span>
-                    <span className="font-semibold">10:00 AM - 4:00 PM</span>
+                    <span className="font-semibold">9:00 AM - 7:00 PM</span>
                   </div>
                 </div>
                 <div className="mt-6 p-4 bg-softpink rounded-lg">
@@ -133,16 +203,13 @@ const ContactPage: React.FC = () => {
                 <div className="space-y-4">
                   <div>
                     <h4 className="font-semibold mb-2">By Car:</h4>
-                    <p className="text-sm">Free parking available in our private lot behind the salon.</p>
+                    <p className="text-sm">Free parking available in front ofthe salon.</p>
                   </div>
                   <div>
                     <h4 className="font-semibold mb-2">By Public Transit:</h4>
-                    <p className="text-sm">Bus routes 15, 23, and 45 stop within 2 blocks of our location.</p>
+                    <p className="text-sm">Bus routes within walking distance from the location.</p>
                   </div>
-                  <div>
-                    <h4 className="font-semibold mb-2">Accessibility:</h4>
-                    <p className="text-sm">Our salon is fully accessible with ramps and wide doorways.</p>
-                  </div>
+
                 </div>
               </div>
             </div>
@@ -220,13 +287,34 @@ const ContactPage: React.FC = () => {
                 />
               </div>
 
+              {/* Success/Error Message */}
+              {submitMessage && (
+                <div className={`p-4 rounded-lg ${
+                  submitMessage.type === 'success' 
+                    ? 'bg-green-100 border border-green-400 text-green-700' 
+                    : 'bg-red-100 border border-red-400 text-red-700'
+                }`}>
+                  {submitMessage.text}
+                </div>
+              )}
+
               <div className="text-center">
                 <h3 className="text-xl font-semibold mb-4">Contact Information</h3>
                 <p className="mb-4">zorasalon07@gmail.com</p>
-                <p className="mb-4">zorasalon07@gmail.com</p>
-                <p className="mb-4">+1 (555) 123-4567</p>
-                <button type="submit" className="btn btn-primary">
-                  Send Message
+                <p className="mb-4">95013-14939 | 84277-50344</p>
+                <button 
+                  type="submit" 
+                  className={`btn btn-primary ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <>
+                      <div className="animate-spin inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full mr-2"></div>
+                      Sending...
+                    </>
+                  ) : (
+                    'Send Message'
+                  )}
                 </button>
               </div>
             </form>
