@@ -43,6 +43,8 @@ body {
   
   .main-container {
     background-size: cover !important;
+    background-position: left center !important;
+    background-repeat: no-repeat !important;
     background-attachment: fixed !important;
   }
 }

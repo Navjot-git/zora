@@ -6,8 +6,8 @@ const AboutPage: React.FC = () => {
     <div className="min-h-screen main-container" style={{
       backgroundImage: 'url("/feathers-1.png")',
       backgroundSize: 'contain',
-      backgroundPosition: 'left center',
-      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'left top',
+      backgroundRepeat: 'repeat-y',
       backgroundAttachment: 'scroll',
       border: '3px solid var(--champagnegold)',
       borderRadius: '20px',
