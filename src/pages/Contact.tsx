@@ -83,10 +83,10 @@ const ContactPage: React.FC = () => {
   return (
     <div className="min-h-screen main-container" style={{
       backgroundImage: 'url("/feathers-1.png")',
-      backgroundSize: 'cover',
+      backgroundSize: 'contain',
       backgroundPosition: 'left center',
       backgroundRepeat: 'no-repeat',
-      backgroundAttachment: 'fixed',
+      backgroundAttachment: 'scroll',
       border: '3px solid var(--champagnegold)',
       borderRadius: '20px',
       margin: '1rem',
