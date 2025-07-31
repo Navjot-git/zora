@@ -850,9 +850,90 @@ footer {
     grid-template-columns: repeat(3, 1fr) !important;
     gap: 2rem;
   }
-  
+
   .contact-info-grid > div {
     width: 100%;
+  }
+}
+
+/* Hero Section Layout */
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  align-items: stretch;
+}
+
+@media (min-width: 768px) {
+  .hero-grid {
+    gap: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-grid {
+    grid-template-columns: 1fr 1fr !important;
+    align-items: stretch;
+    gap: 2rem;
+  }
+}
+
+.hero-image-container {
+  min-height: 300px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-text-container {
+  min-height: 300px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .hero-image-container {
+    min-height: 400px;
+    height: 400px;
+  }
+  
+  .hero-text-container {
+    min-height: 400px;
+    height: 400px;
+  }
+}
+
+/* Mobile-specific spacing */
+@media (max-width: 768px) {
+  .py-12 {
+    padding-top: 1.5rem !important;
+    padding-bottom: 1.5rem !important;
+  }
+  
+  section {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+}
+
+/* Responsive outer margin for the main container */
+@media (max-width: 480px) {
+  .main-container {
+    margin: 0.1rem !important;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .main-container {
+    margin: 0.25rem !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .main-container {
+    margin: 1rem !important;
   }
 }
 

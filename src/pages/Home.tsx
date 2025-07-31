@@ -11,7 +11,7 @@ const HomePage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen" style={{
+    <div className="min-h-screen main-container" style={{
       backgroundImage: 'url("/feathers-1.png")',
       backgroundSize: 'cover',
       backgroundPosition: 'left center',
@@ -19,21 +19,22 @@ const HomePage: React.FC = () => {
       backgroundAttachment: 'fixed',
       border: '3px solid var(--champagnegold)',
       borderRadius: '20px',
-      margin: '1rem',
       overflow: 'hidden'
     }}>
       {/* Hero Section */}
       <section className="py-12" style={{ padding: '2rem' }}>
         <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', alignItems: 'stretch' }}>
+          <div className="hero-grid">
             {/* Left Column - Image */}
-            <div className="text-center" style={{ height: '500px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div className="hero-image-container text-center">
               <img 
                 src="/zora-salon-4.png" 
                 alt="Zora Salon - Luxury Beauty Experience" 
                 style={{ 
                   width: '100%', 
+                  maxWidth: '100%',
                   height: '100%',
+                  maxHeight: '100%',
                   borderRadius: '16px',
                   boxShadow: '0 8px 25px rgba(212, 175, 55, 0.2)',
                   objectFit: 'cover'
@@ -47,10 +48,10 @@ const HomePage: React.FC = () => {
             </div>
             
             {/* Right Column - Text Content */}
-            <div className="text-center lg:text-left" style={{ height: '500px', display: 'flex', alignItems: 'center' }}>
+            <div className="hero-text-container text-center lg:text-left">
               <div style={{
                 background: 'rgba(255, 248, 220, 0.7)',
-                padding: '2rem',
+                padding: '1.5rem',
                 borderRadius: '16px',
                 boxShadow: '0 4px 15px rgba(212, 175, 55, 0.2)',
                 color: 'var(--bottlegreen)',
@@ -60,10 +61,10 @@ const HomePage: React.FC = () => {
                 flexDirection: 'column',
                 justifyContent: 'center'
               }}>
-                <h1 className="text-6xl md:text-5xl mb-6">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl mb-4 md:mb-6">
                   Welcome to Zora Salon
                 </h1>
-                <p className="text-xl mb-8 text-bottlegreen">
+                <p className="text-lg md:text-xl mb-6 md:mb-8 text-bottlegreen">
                   Where beauty meets luxury in an elegant, relaxing space designed just for you
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">

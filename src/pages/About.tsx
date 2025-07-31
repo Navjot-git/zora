@@ -3,7 +3,7 @@ import { Award, MapPin, Clock } from 'lucide-react';
 
 const AboutPage: React.FC = () => {
   return (
-    <div className="min-h-screen" style={{
+    <div className="min-h-screen main-container" style={{
       backgroundImage: 'url("/feathers-1.png")',
       backgroundSize: 'cover',
       backgroundPosition: 'left center',
@@ -11,7 +11,6 @@ const AboutPage: React.FC = () => {
       backgroundAttachment: 'fixed',
       border: '3px solid var(--champagnegold)',
       borderRadius: '20px',
-      margin: '1rem',
       overflow: 'hidden'
     }}>
       {/* Hero Section */}

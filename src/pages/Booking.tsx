@@ -145,7 +145,7 @@ const BookingPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen" style={{
+    <div className="min-h-screen main-container" style={{
       backgroundImage: 'url("/feathers-1.png")',
       backgroundSize: 'cover',
       backgroundPosition: 'left center',
